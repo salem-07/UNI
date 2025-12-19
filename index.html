@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUIANS</title>
+    
+    <!-- 1. Tailwind CSS (CDN for Layout Utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Custom Neumorphic Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 3. Icon Library (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 4. Chart Library (ApexCharts) -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
+</head>
+<body class="min-h-screen text-slate-700">
+
+    <!-- 
+      ========================================
+      SIDEBAR SECTION
+      ========================================
+    -->
+    <aside class="fixed left-0 top-0 hidden h-screen w-[270px] flex-col overflow-y-auto border-r border-slate-300/50 bg-[#e0e5ec] p-6 lg:flex z-50">
+        <!-- Logo -->
+        <div class="mb-8 flex items-center gap-3 px-2">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-red-500 via-orange-500 to-blue-700 text-white shadow-lg shadow-red-400/50 glow-primary">
+                <i data-lucide="zap" class="h-5 w-5 fill-current"></i>
+            </div>
+            <span class="text-xl font-bold gradient-text">ECUIANS</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 space-y-6">
+            <!-- Home Section -->
+            <div>
+                <p class="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-slate-400">Home</p>
+                <div class="space-y-3">
+                    <button class="neu-btn active w-full justify-start gap-3 px-4 py-3 text-sm font-semibold" style="color: var(--primary);">
+                        <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="sparkles" class="h-4 w-4"></i>
+                        <span>AI</span>
+                        <span class="ml-auto rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-md shadow-orange-400/30">PRO</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="file-text" class="h-4 w-4"></i>
+                        <span>Front Pages</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Apps Section -->
+            <div>
+                <p class="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-slate-400">Apps</p>
+                <div class="space-y-3">
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="message-square" class="h-4 w-4"></i>
+                        <span>Notes</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="mail" class="h-4 w-4"></i>
+                        <span>Email</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="calendar" class="h-4 w-4"></i>
+                        <span>Calendar</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Upgrade Card -->
+        <div class="neu-card mt-6 relative overflow-hidden bg-gradient-to-br from-red-50 via-orange-50 to-blue-50 p-6">
+            <div class="relative z-10">
+                <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-red-100 to-orange-100 text-red-600">
+                    <i data-lucide="rocket" class="h-5 w-5"></i>
+                </div>
+                <h4 class="mb-1 font-bold text-slate-700">Haven't Account?</h4>
+                <p class="mb-4 text-xs text-slate-500">Sign up to get full access</p>
+                <button class="w-full rounded-lg bg-gradient-to-r from-red-500 via-orange-500 to-red-600 py-2 text-xs font-bold text-white shadow-lg shadow-red-400/40 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50 hover:scale-[1.02] active:scale-95 btn-glow relative overflow-hidden">
+                    <span class="relative z-10">Sign Up</span>
+                </button>
+            </div>
+            <!-- Decorative circles -->
+            <div class="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-orange-100/50 blur-2xl"></div>
+            <div class="absolute -left-6 -bottom-6 h-20 w-20 rounded-full bg-blue-100/50 blur-2xl"></div>
+        </div>
+    </aside>
+
+    <!-- 
+      ========================================
+      MAIN HEADER
+      ========================================
+    -->
+    <header class="sticky top-0 z-40 flex h-[70px] items-center justify-between bg-[#e0e5ec]/80 px-6 backdrop-blur-md lg:ml-[270px]">
+        <div class="flex items-center gap-4">
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-btn" class="p-2 text-slate-600 lg:hidden">
+                <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+            
+            <!-- Search Bar -->
+            <div class="hidden w-64 md:block">
+                <div class="neu-input-wrapper">
+                    <i data-lucide="search" class="neu-icon-left h-4 w-4"></i>
+                    <input type="text" placeholder="Search..." class="neu-input neu-input-icon text-sm">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Pro Button -->
+            <button class="hidden rounded-full bg-gradient-to-r from-red-500 via-orange-500 to-blue-700 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-red-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/50 hover:scale-105 active:scale-95 btn-glow relative overflow-hidden sm:block">
+                <span class="relative z-10">Check Pro Version</span>
+            </button>
+            
+            <!-- Notification Bell -->
+            <button class="neu-btn neu-btn-icon relative text-slate-600">
+                <i data-lucide="bell" class="h-5 w-5"></i>
+                <span class="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-gradient-to-br from-red-500 to-orange-500 ring-2 ring-[#e0e5ec] animate-pulse"></span>
+            </button>
+
+            <!-- User Profile -->
+            <div class="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-[4px_4px_8px_#b8b9be,-4px_-4px_8px_#ffffff]">
+                <img src="https://images.unsplash.com/photo-1623594675959-02360202d4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdCUyMHdvbWFufGVufDF8fHx8MTc2NTIzNjk3N3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="User" class="h-full w-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- 
+      ========================================
+      DASHBOARD CONTENT
+      ========================================
+    -->
+    <main class="min-h-[calc(100vh-70px)] p-6 lg:ml-[270px]">
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- 
+               ROW 1: Analytics 
+            -->
+
+            <!-- Sales Overview (Bar Chart) -->
+            <div class="neu-card col-span-12 p-6 lg:col-span-8">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-700">Sales Overview</h3>
+                        <p class="text-sm text-slate-500">Overview of Profit</p>
+                    </div>
+                    <!-- Styled Select -->
+                    <div class="neu-input-wrapper">
+                         <select class="neu-input text-sm text-slate-600" style="padding: 0.5rem 1rem;">
+                             <option>Year 2025</option>
+                             <option>Year 2024</option>
+                         </select>
+                    </div>
+                </div>
+                <!-- Chart Container -->
+                <div id="sales-chart"></div>
+            </div>
+
+            <!-- Side Widgets Column -->
+            <div class="col-span-12 grid grid-cols-1 gap-6 lg:col-span-4">
+                
+                <!-- Yearly Breakup (Donut Chart) -->
+                <div class="neu-card flex flex-col p-6">
+                    <h3 class="mb-4 text-lg font-bold text-slate-700">Yearly Breakup</h3>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-slate-800">$36,358</h2>
+                            <div class="mt-2 flex items-center gap-2">
+                                <div class="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 shadow-sm">
+                                    <i data-lucide="arrow-up-left" class="h-3 w-3"></i>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-500">+9% last year</p>
+                            </div>
+                            <div class="mt-6 space-y-2">
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-sm"></span> 2024
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm"></span> 2023
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 shadow-sm"></span> 2022
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Donut Chart -->
+                        <div id="yearly-chart" class="flex items-center justify-center"></div>
+                    </div>
+                </div>
+
+                <!-- Monthly Earnings (Area Sparkline) -->
+                <div class="neu-card relative flex flex-col overflow-hidden p-0">
+                    <div class="p-6">
+                        <h3 class="mb-4 text-lg font-bold text-slate-700">Monthly Earnings</h3>
+                        <h2 class="text-3xl font-bold text-slate-800">$6,820</h2>
+                        <div class="mt-2 flex items-center gap-2">
+                            <div class="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-red-100 to-red-200 text-red-600 shadow-sm">
+                                <i data-lucide="arrow-up-left" class="h-3 w-3 rotate-45 transform"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">+9% last year</p>
+                        </div>
+                    </div>
+                    <!-- Floating Icon -->
+                    <div class="absolute right-6 top-6 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-600/50 glow-accent">
+                        <i data-lucide="dollar-sign" class="h-6 w-6"></i>
+                    </div>
+                    <!-- Area Chart -->
+                    <div id="monthly-chart"></div>
+                </div>
+            </div>
+
+            <!-- 
+               ROW 2: Data & Lists
+            -->
+
+            <!-- Recent Transactions (Timeline) -->
+            <div class="neu-card col-span-12 p-6 lg:col-span-4">
+                <h3 class="text-lg font-bold text-slate-700">Recent Transactions</h3>
+                <p class="mb-6 text-sm text-slate-500">How to secure recent transactions</p>
+
+                <div class="relative ml-3 space-y-8 border-l-2 border-slate-300 pl-6">
+                    <!-- Item 1 -->
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-red-500 bg-[#e0e5ec] shadow-sm shadow-red-400/30"></span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-semibold text-slate-500">09:30</span>
+                            <span class="text-sm font-medium text-slate-700">Payment received from John Doe of $385.90</span>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-orange-500 bg-[#e0e5ec] shadow-sm shadow-orange-400/30"></span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-semibold text-slate-500">10:00 am</span>
+                            <span class="text-sm font-medium text-slate-700">New sale recorded #ML-3467</span>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-blue-700 bg-[#e0e5ec] shadow-sm shadow-blue-600/30"></span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-semibold text-slate-500">12:00 am</span>
+                            <span class="text-sm font-medium text-slate-700">Payment was made of $64.95 to Michael</span>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-orange-500 bg-[#e0e5ec] shadow-sm shadow-orange-400/30"></span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-semibold text-slate-500">09:30 am</span>
+                            <span class="text-sm font-medium text-slate-700">New sale recorded #ML-3467</span>
+                        </div>
+                    </div>
+                    <!-- Item 5 -->
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-red-500 bg-[#e0e5ec] shadow-sm shadow-red-400/30"></span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-semibold text-slate-500">12:00 am</span>
+                            <span class="text-sm font-medium text-slate-700">Payment Done</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Performance (Table) -->
+            <div class="neu-card col-span-12 overflow-x-auto p-6 lg:col-span-8">
+                <h3 class="mb-6 text-lg font-bold text-slate-700">Product Performance</h3>
+                <table class="w-full min-w-[600px] text-left">
+                    <thead>
+                        <tr class="border-b border-slate-300 text-sm text-slate-500">
+                            <th class="pb-4 font-semibold">Id</th>
+                            <th class="pb-4 font-semibold">Assigned</th>
+                            <th class="pb-4 font-semibold">Name</th>
+                            <th class="pb-4 font-semibold">Priority</th>
+                            <th class="pb-4 font-semibold">Budget</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-slate-600">
+                        <!-- Row 1 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">1</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Sunil Joshi</div>
+                                    <div class="text-xs text-slate-500">Web Designer</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Elite Admin</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-red-500 to-red-600 px-3 py-1 text-xs font-bold text-white shadow-md shadow-red-400/30">Low</span></td>
+                            <td class="py-4 font-bold text-slate-700">$3.9k</td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">2</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Andrew McDownland</div>
+                                    <div class="text-xs text-slate-500">Project Manager</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Real Homes WP Theme</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-3 py-1 text-xs font-bold text-white shadow-md shadow-orange-400/30">Medium</span></td>
+                            <td class="py-4 font-bold text-slate-700">$24.5k</td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">3</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Christopher Jamil</div>
+                                    <div class="text-xs text-slate-500">Project Manager</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">MedicalPro WP Theme</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-orange-600 to-orange-700 px-3 py-1 text-xs font-bold text-white shadow-md shadow-orange-500/30">High</span></td>
+                            <td class="py-4 font-bold text-slate-700">$12.8k</td>
+                        </tr>
+                        <!-- Row 4 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">4</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Nirav Joshi</div>
+                                    <div class="text-xs text-slate-500">Frontend Engineer</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Hosting Press HTML</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-blue-700 to-blue-900 px-3 py-1 text-xs font-bold text-white shadow-md shadow-blue-600/30">Critical</span></td>
+                            <td class="py-4 font-bold text-slate-700">$4.8k</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 
+               ROW 3: Product Cards 
+            -->
+            
+            <!-- Card 1 -->
+            <div class="neu-card group col-span-12 overflow-hidden p-0 sm:col-span-6 lg:col-span-3">
+                <div class="relative h-60 w-full overflow-hidden bg-white">
+                    <img src="https://images.unsplash.com/photo-1674658556545-f18d4080ab6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmVzJTIwcHJvZHVjdHxlbnwxfHx8fDE3NjUyNTE1NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Headphone">
+                    <button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white shadow-lg shadow-blue-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-700/60 hover:scale-110 group-hover:translate-y-0">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h4 class="text-lg font-bold text-slate-700">Boat Headphone</h4>
+                    <div class="mt-2 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-slate-800">$285</span>
+                            <span class="text-sm text-slate-400 line-through">$375</span>
+                        </div>
+                        <div class="flex text-yellow-400 text-xs">★★★★☆</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="neu-card group col-span-12 overflow-hidden p-0 sm:col-span-6 lg:col-span-3">
+                <div class="relative h-60 w-full overflow-hidden bg-white">
+                    <img src="https://images.unsplash.com/photo-1551533390-b80b6ffa7816?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWNib29rJTIwcHJvJTIwbGFwdG9wfGVufDF8fHx8MTc2NTMzMzgwMnww&ixlib=rb-4.1.0&q=80&w=1080" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Laptop">
+                    <button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white shadow-lg shadow-blue-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-700/60 hover:scale-110 group-hover:translate-y-0">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h4 class="text-lg font-bold text-slate-700">MacBook Air Pro</h4>
+                    <div class="mt-2 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-slate-800">$675</span>
+                            <span class="text-sm text-slate-400 line-through">$900</span>
+                        </div>
+                        <div class="flex text-yellow-400 text-xs">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="neu-card group col-span-12 overflow-hidden p-0 sm:col-span-6 lg:col-span-3">
+                <div class="relative h-60 w-full overflow-hidden bg-white">
+                    <img src="https://images.unsplash.com/photo-1676103390267-2f0d0c77cf3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjB2ZWx2ZXQlMjBkcmVzcyUyMHdvbWFufGVufDF8fHx8MTc2NTM0Mjg2OXww&ixlib=rb-4.1.0&q=80&w=1080" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Dress">
+                    <button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white shadow-lg shadow-blue-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-700/60 hover:scale-110 group-hover:translate-y-0">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h4 class="text-lg font-bold text-slate-700">Red Velvet Dress</h4>
+                    <div class="mt-2 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-slate-800">$150</span>
+                            <span class="text-sm text-slate-400 line-through">$200</span>
+                        </div>
+                        <div class="flex text-yellow-400 text-xs">★★★☆☆</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="neu-card group col-span-12 overflow-hidden p-0 sm:col-span-6 lg:col-span-3">
+                <div class="relative h-60 w-full overflow-hidden bg-white">
+                    <img src="https://images.unsplash.com/photo-1753928578920-c3e936415a21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWRkeSUyMGJlYXIlMjB0b3l8ZW58MXx8fHwxNzY1MzE4MTExfDA&ixlib=rb-4.1.0&q=80&w=1080" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Teddy">
+                    <button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white shadow-lg shadow-blue-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-700/60 hover:scale-110 group-hover:translate-y-0">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h4 class="text-lg font-bold text-slate-700">Cute Soft Teddybear</h4>
+                    <div class="mt-2 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-slate-800">$285</span>
+                            <span class="text-sm text-slate-400 line-through">$345</span>
+                        </div>
+                        <div class="flex text-yellow-400 text-xs">★★★★☆</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="col-span-12 mt-4 text-center text-sm text-slate-500">
+                <p>Design and Developed by <span class="font-bold text-red-600">AdminMart</span> Distributed by <span class="font-bold text-blue-800">ThemeWagon</span></p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 5. Chart & Interaction Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
