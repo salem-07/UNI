@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUIANS</title>
+    
+    <!-- 1. Tailwind CSS (CDN for Layout Utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Custom Neumorphic Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 3. Icon Library (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 4. Chart Library (ApexCharts) -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
+</head>
+<body class="min-h-screen text-slate-700">
+
+    <!-- 
+      ========================================
+      SIDEBAR SECTION
+      ========================================
+    -->
+    <aside class="fixed left-0 top-0 hidden h-screen w-[270px] flex-col overflow-y-auto border-r border-slate-300/50 bg-[#e0e5ec] p-6 lg:flex z-50">
+        <!-- Logo -->
+        <div class="mb-8 flex items-center gap-3 px-2">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-red-500 via-orange-500 to-blue-700 text-white shadow-lg shadow-red-400/50 glow-primary">
+                <i data-lucide="zap" class="h-5 w-5 fill-current"></i>
+            </div>
+            <span class="text-xl font-bold gradient-text">ECUIANS</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 space-y-6">
+            <!-- Home Section -->
+            <div>
+                <p class="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-slate-400">Home</p>
+                <div class="space-y-3">
+                    <button class="neu-btn active w-full justify-start gap-3 px-4 py-3 text-sm font-semibold" style="color: var(--primary);">
+                        <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="sparkles" class="h-4 w-4"></i>
+                        <span>AI</span>
+                        <span class="ml-auto rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-md shadow-orange-400/30">PRO</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="file-text" class="h-4 w-4"></i>
+                        <span>Front Pages</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Apps Section -->
+            <div>
+                <p class="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-slate-400">Apps</p>
+                <div class="space-y-3">
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="message-square" class="h-4 w-4"></i>
+                        <span>Notes</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="mail" class="h-4 w-4"></i>
+                        <span>Email</span>
+                    </button>
+                    <button class="neu-btn w-full justify-start gap-3 px-4 py-3 text-sm font-medium">
+                        <i data-lucide="calendar" class="h-4 w-4"></i>
+                        <span>Calendar</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+    </aside>
+
+    <!-- 
+      ========================================
+      MAIN HEADER
+      ========================================
+    -->
+    <header class="sticky top-0 z-40 flex h-[70px] items-center justify-between bg-[#e0e5ec]/80 px-6 backdrop-blur-md lg:ml-[270px]">
+        <div class="flex items-center gap-4">
+            <!-- Mobile Menu Toggle 
+            <button id="menu-btn" class="p-2 text-slate-600 lg:hidden">
+                <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+            -->
+            
+            <!-- Search Bar -->
+            <div class="hidden w-64 md:block">
+                <div class="neu-input-wrapper">
+                    <i data-lucide="search" class="neu-icon-left h-4 w-4"></i>
+                    <input type="text" placeholder="Search..." class="neu-input neu-input-icon text-sm">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Pro Button -->
+            <button class="hidden rounded-full bg-gradient-to-r from-red-500 via-orange-500 to-blue-700 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-red-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/50 hover:scale-105 active:scale-95 btn-glow relative overflow-hidden sm:block">
+                <span class="relative z-10">Check Pro Version</span>
+            </button>
+            
+            <!-- Notification Bell -->
+            <button class="neu-btn neu-btn-icon relative text-slate-600">
+                <i data-lucide="bell" class="h-5 w-5"></i>
+                <span class="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-gradient-to-br from-red-500 to-orange-500 ring-2 ring-[#e0e5ec] animate-pulse"></span>
+            </button>
+
+            <!-- User Profile -->
+            <div class="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-[4px_4px_8px_#b8b9be,-4px_-4px_8px_#ffffff]">
+                <img src="https://e1.pxfuel.com/desktop-wallpaper/71/408/desktop-wallpaper-laselom-beard-logo.jpg" alt="User" class="h-full w-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- 
+      ========================================
+      DASHBOARD CONTENT
+      ========================================
+    -->
+    <main class="min-h-[calc(100vh-70px)] p-6 lg:ml-[270px]">
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- 
+               ROW 1: Analytics 
+            -->
+
+            <!-- Sales Overview (Bar Chart) -->
+            <div class="neu-card col-span-12 p-6 lg:col-span-8">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-700">Sales Overview</h3>
+                        <p class="text-sm text-slate-500">Overview of Profit</p>
+                    </div>
+                    <!-- Styled Select -->
+                    <div class="neu-input-wrapper">
+                         <select class="neu-input text-sm text-slate-600" style="padding: 0.5rem 1rem;">
+                             <option>Year 2025</option>
+                             <option>Year 2026</option>
+                         </select>
+                    </div>
+                </div>
+                <!-- Chart Container -->
+                <div id="sales-chart"></div>
+            </div>
+
+            <!-- Side Widgets Column -->
+            <div class="col-span-12 grid grid-cols-1 gap-6 lg:col-span-4">
+                
+                <!-- Yearly Breakup (Donut Chart) -->
+                <div class="neu-card flex flex-col p-6">
+                    <h3 class="mb-4 text-lg font-bold text-slate-700">Yearly Breakup</h3>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-slate-800">$36,358</h2>
+                            <div class="mt-2 flex items-center gap-2">
+                                <div class="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 shadow-sm">
+                                    <i data-lucide="arrow-up-left" class="h-3 w-3"></i>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-500">+9% last year</p>
+                            </div>
+                            <div class="mt-6 space-y-2">
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-sm"></span> 2024
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm"></span> 2023
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 shadow-sm"></span> 2022
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Donut Chart -->
+                        <div id="yearly-chart" class="flex items-center justify-center"></div>
+                    </div>
+                </div>
+
+                <!-- Monthly Earnings (Area Sparkline) -->
+                <div class="neu-card relative flex flex-col overflow-hidden p-0">
+                    <div class="p-6">
+                        <h3 class="mb-4 text-lg font-bold text-slate-700">Monthly Earnings</h3>
+                        <h2 class="text-3xl font-bold text-slate-800">$6,820</h2>
+                        <div class="mt-2 flex items-center gap-2">
+                            <div class="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-red-100 to-red-200 text-red-600 shadow-sm">
+                                <i data-lucide="arrow-up-left" class="h-3 w-3 rotate-45 transform"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">+9% last year</p>
+                        </div>
+                    </div>
+                    <!-- Floating Icon -->
+                    <div class="absolute right-6 top-6 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-600/50 glow-accent">
+                        <i data-lucide="dollar-sign" class="h-6 w-6"></i>
+                    </div>
+                    <!-- Area Chart 
+                    <div id="monthly-chart"></div>-->
+                </div>
+            </div>
+
+            <!-- 
+               ROW 2: Data & Lists
+            -->
+          
+            <!-- Product Performance (Table) -->
+            <div class="neu-card col-span-12 overflow-x-auto p-6 lg:col-span-8">
+                <h3 class="mb-6 text-lg font-bold text-slate-700">Product Performance</h3>
+                <table class="w-full min-w-[600px] text-left">
+                    <thead>
+                        <tr class="border-b border-slate-300 text-sm text-slate-500">
+                            <th class="pb-4 font-semibold">Id</th>
+                            <th class="pb-4 font-semibold">Assigned</th>
+                            <th class="pb-4 font-semibold">Leader</th>
+                            <th class="pb-4 font-semibold">Priority</th>
+                            <th class="pb-4 font-semibold">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-slate-600">
+                        <!-- Row 1 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">1</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Fullstacker</div>
+                                    <div class="text-xs text-slate-500">Web Designers & Developers</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Ahmed ElSayed</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-red-500 to-red-600 px-3 py-1 text-xs font-bold text-white shadow-md shadow-red-400/30">Low</span></td>
+                            <td class="py-4 font-bold text-slate-700">12</td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">2</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Hackers</div>
+                                    <div class="text-xs text-slate-500">Cyber Security Experts</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Salem Mohamed</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-3 py-1 text-xs font-bold text-white shadow-md shadow-orange-400/30">Medium</span></td>
+                            <td class="py-4 font-bold text-slate-700">28</td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">3</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">TIGO</div>
+                                    <div class="text-xs text-slate-500">data analysts</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Mostafa Ali</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-orange-600 to-orange-700 px-3 py-1 text-xs font-bold text-white shadow-md shadow-orange-500/30">High</span></td>
+                            <td class="py-4 font-bold text-slate-700">43</td>
+                        </tr>
+                        <!-- Row 4 -->
+                        <tr class="border-b border-transparent hover:bg-slate-500/5">
+                            <td class="py-4">4</td>
+                            <td class="py-4">
+                                <div>
+                                    <div class="font-bold text-slate-700">Friends</div>
+                                    <div class="text-xs text-slate-500">cs students</div>
+                                </div>
+                            </td>
+                            <td class="py-4 font-medium">Hosting Press HTML</td>
+                            <td class="py-4"><span class="rounded-full bg-gradient-to-r from-blue-700 to-blue-900 px-3 py-1 text-xs font-bold text-white shadow-md shadow-blue-600/30">Critical</span></td>
+                            <td class="py-4 font-bold text-slate-700">60</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 
+               ROW 3: Product Cards 
+            -->
+        </div>
+    </main>
+    
+    <!-- 5. Chart & Interaction Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
